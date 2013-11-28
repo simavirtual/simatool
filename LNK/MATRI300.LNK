@@ -1,0 +1,16 @@
+#  ENCADENADOR PARA SIMA - SISTEMA UTILITARIO
+
+#*************************************************************************
+# MODULO..: SIMAMATR                                                     *
+#*************************************************************************
+
+#------------------------------------------------------------------------*
+#                       DECLARACION DE ARCHIVOS                          *
+#------------------------------------------------------------------------*
+
+#>>>>ARCHIVOS DEL MODULO
+       fi \SimaClip.v52\SimaTool\f\objs\Tool2201
+       fi \SimaClip.v52\SimaTool\f\objs\Tool2202
+       fi \SimaClip.v52\SimaTool\f\objs\Tool2301
+       fi \SimaClip.v52\SimaTool\f\objs\Tool2302
+#>>>>ARCHIVOS DEL MODULO

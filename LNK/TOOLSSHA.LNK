@@ -1,0 +1,31 @@
+#  ENCADENADOR PARA SIMA - SISTEMA UTILITARIO
+
+#*************************************************************************
+# MODULO..: FUNCIONES COMPARTIDAS                                        *
+#*************************************************************************
+
+#------------------------------------------------------------------------*
+#                       DECLARACION DE ARCHIVOS                          *
+#------------------------------------------------------------------------*
+
+#>>>>ARCHIVOS DEL MODULO
+#       fi \SimaClip.v52\sima.fun\gSimaInf
+#       fi \SimaClip.v52\sima.fun\eSimaInf
+
+#       fi \SimaClip.v52\sima.fun\eSimaIso
+#       fi \SimaClip.v52\sima.fun\gSimaIso
+
+       fi \SimaClip.v52\sima.fun\gSimaObG
+
+       fi \SimaClip.v52\sima.fun\gSimaToG
+       fi \SimaClip.v52\sima.fun\eSimaToG
+
+       fi \SimaClip.v52\sima.fun\gSimaSoG
+       fi \SimaClip.v52\sima.fun\eSimaSoG
+     #ÀFunciones generales del sima
+
+#>>>>FIN ARCHIVOS DEL MODULO
+
+#>>>>EXCLUSION DE FUNCIONES
+       @lnk\NotTools.lnk
+#>>>>FIN EXCLUSION DE FUNCIONES

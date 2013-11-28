@@ -1,0 +1,22 @@
+#  ENCADENADOR PARA SIMA - SISTEMA UTILITARIO
+
+#*************************************************************************
+# MODULO..: SIMACONT                                                     *
+#*************************************************************************
+
+#------------------------------------------------------------------------*
+#                       DECLARACION DE ARCHIVOS                          *
+#------------------------------------------------------------------------*
+
+#>>>>ARCHIVOS DEL MODULO
+       fi \SimaClip.v52\SimaTool\f\objs\Tool1201
+       fi \SimaClip.v52\SimaTool\f\objs\Tool1202
+       fi \SimaClip.v52\SimaTool\f\objs\Tool1203
+       fi \SimaClip.v52\SimaTool\f\objs\Tool1204
+       fi \SimaClip.v52\SimaTool\f\objs\Tool1205
+       fi \SimaClip.v52\SimaTool\f\objs\Tool1206
+       fi \SimaClip.v52\SimaTool\f\objs\Tool1207
+       fi \SimaClip.v52\SimaTool\f\objs\Tool1208
+       fi \SimaClip.v52\SimaTool\f\objs\Tool1209
+       lib \aplica.dos\lenguaje\clipper.v52\lib\dbfcdx
+#>>>>ARCHIVOS DEL MODULO

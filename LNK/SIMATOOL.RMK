@@ -1,0 +1,114 @@
+//  ENCADENADOR PARA SIMA - CARTERA ACADEMICA
+
+//*************************************************************************
+// NOMBRE DEL ENCADENADOR..: PLUSCART.RMK                                 *
+// TITULO DEL PROGRAMA.....: UTILIDAD DE CONTRUCCION DEL SISTEMA          *
+//*************************************************************************
+
+// AUTOR: Nelson Fern ndez G¢mez       FECHA DE CREACION: MAY 28/2002 MAR A
+//        Colombia, Bucaramanga        INICIO: 06:40 PM   MAY 28/2002 MAR
+
+// REQUERIMIENTOS:
+
+// 1- Debe estar presente el archivo con extensi¢n .LNK correspondiente
+
+// OBJETIVOS:
+
+// 1- Permite compilar y linkquiar dinamicamente la aplicaci¢n
+
+// SINTAXIS:
+//          Rmake SimaTool /dOK
+
+//------------------------------------------------------------------------*
+//	                   ESPECIFICACIONES                               *
+//------------------------------------------------------------------------*
+
+//>>CONDICIONES GENERALES
+      FILSCR := SimaTool
+      OBJDIR := \SimaClip.v52\SimaTool\f\objs
+      SISPRG := \SimaClip.v52\SimaTool\f
+      FUNPRG := \SimaClip.v52\SimaTool\f\funcions
+
+      OPTIONS := /w/b
+//      LINKER  := \Aplica.dos\Lenguaje\Clipper.v52\bin\Rtlink @\SimaClip.v52\SimaTool\f\lnk\Rtlink.lnk
+      LINKER  := \Aplica.dos\Lenguaje\Blinker7\Bin\Blinker @\SimaClip.v52\SimaTool\f\lnk\Blink52p.lnk
+      CLIPPER := \Aplica.dos\Lenguaje\Clipper.v52\bin\clipper
+//>>FIN CONDICIONES GENERALES
+
+//>>RELACIONES DE DEPENDENCIA PARA LOS OBJS
+.prg.obj:
+	 clipper $* $(OPTIONS)/o$(OBJDIR)\$*
+"$(OBJDIR)\SimaTool.obj" : "$(SISPRG)\SimaTool.prg"
+.prg.obj:
+	 clipper $* $(OPTIONS)/o$(OBJDIR)\$*
+"$(OBJDIR)\Tools101.obj" : "$(SISPRG)\Tools101.prg"
+"$(OBJDIR)\Tools111.obj" : "$(SISPRG)\Tools111.prg"
+"$(OBJDIR)\Tools112.obj" : "$(SISPRG)\Tools112.prg"
+"$(OBJDIR)\Tools113.obj" : "$(SISPRG)\Tools113.prg"
+"$(OBJDIR)\Tools102.obj" : "$(SISPRG)\Tools102.prg"
+"$(OBJDIR)\Tools121.obj" : "$(SISPRG)\Tools121.prg"
+"$(OBJDIR)\Tools122.obj" : "$(SISPRG)\Tools122.prg"
+"$(OBJDIR)\Tools708.obj" : "$(SISPRG)\Tools708.prg"
+.prg.obj:
+	 clipper SIMACONT\$* $(OPTIONS)/o$(OBJDIR)\$*
+"$(OBJDIR)\Tool1201.obj" : "$(SISPRG)\SimaCont\Tool1201.prg"
+"$(OBJDIR)\Tool1202.obj" : "$(SISPRG)\SimaCont\Tool1202.prg"
+"$(OBJDIR)\Tool1203.obj" : "$(SISPRG)\SimaCont\Tool1203.prg"
+"$(OBJDIR)\Tool1204.obj" : "$(SISPRG)\SimaCont\Tool1204.prg"
+"$(OBJDIR)\Tool1205.obj" : "$(SISPRG)\SimaCont\Tool1205.prg"
+"$(OBJDIR)\Tool1206.obj" : "$(SISPRG)\SimaCont\Tool1206.prg"
+"$(OBJDIR)\Tool1207.obj" : "$(SISPRG)\SimaCont\Tool1207.prg"
+"$(OBJDIR)\Tool1208.obj" : "$(SISPRG)\SimaCont\Tool1208.prg"
+"$(OBJDIR)\Tool1209.obj" : "$(SISPRG)\SimaCont\Tool1209.prg"
+"$(OBJDIR)\Tool1301.obj" : "$(SISPRG)\SimaCont\Tool1301.prg"
+"$(OBJDIR)\Tool1401.obj" : "$(SISPRG)\SimaCont\Tool1401.prg"
+"$(OBJDIR)\Tool1402.obj" : "$(SISPRG)\SimaCont\Tool1402.prg"
+"$(OBJDIR)\Tool1501.obj" : "$(SISPRG)\SimaCont\Tool1501.prg"
+"$(OBJDIR)\Tool1502.obj" : "$(SISPRG)\SimaCont\Tool1502.prg"
+"$(OBJDIR)\Tool1503.obj" : "$(SISPRG)\SimaCont\Tool1503.prg"
+"$(OBJDIR)\Tool1504.obj" : "$(SISPRG)\SimaCont\Tool1504.prg"
+"$(OBJDIR)\Tool1505.obj" : "$(SISPRG)\SimaCont\Tool1505.prg"
+"$(OBJDIR)\Tool1506.obj" : "$(SISPRG)\SimaCont\Tool1506.prg"
+"$(OBJDIR)\Tool1601.obj" : "$(SISPRG)\SimaCont\Tool1601.prg"
+"$(OBJDIR)\Tool1602.obj" : "$(SISPRG)\SimaCont\Tool1602.prg"
+"$(OBJDIR)\Tool1603.obj" : "$(SISPRG)\SimaCont\Tool1603.prg"
+.prg.obj:
+	 clipper SIMAMATR\$* $(OPTIONS)/o$(OBJDIR)\$*
+"$(OBJDIR)\Tool2201.obj" : "$(SISPRG)\SimaMatr\Tool2201.prg"
+"$(OBJDIR)\Tool2202.obj" : "$(SISPRG)\SimaMatr\Tool2202.prg"
+"$(OBJDIR)\Tool2301.obj" : "$(SISPRG)\SimaMatr\Tool2301.prg"
+"$(OBJDIR)\Tool2302.obj" : "$(SISPRG)\SimaMatr\Tool2302.prg"
+.prg.obj:
+	 clipper SIMACART\$* $(OPTIONS)/o$(OBJDIR)\$*
+"$(OBJDIR)\Tool4201.obj" : "$(SISPRG)\SimaCart\Tool4201.prg"
+"$(OBJDIR)\Tool4202.obj" : "$(SISPRG)\SimaCart\Tool4202.prg"
+"$(OBJDIR)\Tool4401.obj" : "$(SISPRG)\SimaCart\Tool4401.prg"
+"$(OBJDIR)\Tool4402.obj" : "$(SISPRG)\SimaCart\Tool4402.prg"
+"$(OBJDIR)\Tool4601.obj" : "$(SISPRG)\SimaCart\Tool4601.prg"
+"$(OBJDIR)\Tool4602.obj" : "$(SISPRG)\SimaCart\Tool4602.prg"
+"$(OBJDIR)\Tool4603.obj" : "$(SISPRG)\SimaCart\Tool4603.prg"
+.prg.obj:
+	 clipper funcions\$* $(OPTIONS)/o$(OBJDIR)\$
+"$(OBJDIR)\ToolsFun.obj" :  "$(FUNPRG)\ToolsFun.prg"
+"$(OBJDIR)\FSimaTol.obj" :  "$(FUNPRG)\FSimaTol.prg"
+.prg.obj:
+	 clipper SIMATOOL\$* $(OPTIONS)/o$(OBJDIR)\$*
+"$(OBJDIR)\Tool6301.obj" : "$(SISPRG)\SimaTool\Tool6301.prg"
+//>>FIN RELACIONES DE DEPENDENCIA PARA LOS OBJS
+
+///CONSTRUCCION DEL EJECUTABLE
+     $(FILSCR).EXE: $(OBJDIR)\SimaTool.obj  $(OBJDIR)\FSimaTol.obj \\
+		    $(OBJDIR)\Tools101.obj  \\
+		    $(OBJDIR)\Tools111.obj  $(OBJDIR)\Tools112.obj \\
+		    $(OBJDIR)\Tools102.obj  \\
+		    $(OBJDIR)\Tools121.obj  $(OBJDIR)\Tools122.obj \\
+		    $(OBJDIR)\Tools708.obj  \\
+		    $(OBJDIR)\ToolsFun.obj  $(OBJDIR)\FSimaTol.obj \\
+		    $(OBJDIR)\Tool1501.obj  $(OBJDIR)\Tool1501.obj \\
+		    $(OBJDIR)\Tool1601.obj  $(OBJDIR)\Tool1602.obj \\
+		    $(OBJDIR)\Tool1601.obj  \\
+		    $(OBJDIR)\Tool2301.obj  $(OBJDIR)\Tool2301.obj \\
+		    $(OBJDIR)\Tool4601.obj  $(OBJDIR)\Tool4602.obj \\
+		    $(OBJDIR)\Tool4602.obj
+     $(LINKER)
+///FIN CONSTRUCCION DEL EJECUTABLE

@@ -1,0 +1,15 @@
+#  ENCADENADOR PARA SIMA - SISTEMA UTILITARIO
+
+#*************************************************************************
+# MODULO..: FUNCIONES DEL SISTEMA                                        *
+#*************************************************************************
+
+#------------------------------------------------------------------------*
+#                       DECLARACION DE ARCHIVOS                          *
+#------------------------------------------------------------------------*
+
+#>>>>ARCHIVOS DEL MODULO
+       fi \SimaClip.v52\SimaTool\f\objs\ToolsFun
+       fi \SimaClip.v52\SimaTool\f\objs\FSimaTol
+     #ÀFunciones del Sistema
+#>>>>FIN ARCHIVOS DEL MODULO

@@ -1,0 +1,77 @@
+#  ENCADENADOR PARA SIMA - SISTEMA UTILITARIO
+
+#*************************************************************************
+# TITULO..: ENCADENADOR DEL SISTEMA                                      *
+#*************************************************************************
+
+#AUTOR: Nelson Fern ndez G¢mez       FECHA DE CREACION: MAY 28/2002 MIE A
+#	Colombia, Bucaramanga	     INICIO: 07:00 AM   Pendiente
+
+#REQUERIMIENTOS:
+
+#1- Debe estar presente el linkiador del CLIPPER V52 Rtlink
+
+#OBJETIVOS:
+
+#1- Especificaciones para el encadenador "rtlink"
+
+#------------------------------------------------------------------------*
+#                    ESPECIFICACIONES PARA EL ENCADENADOR                *
+#------------------------------------------------------------------------*
+
+#>>>>OPCIONES DEL ENCADENADOR
+#      VERBOSE
+#>>>>FIN OPCIONES DEL ENCADENADOR
+
+#>>>>NOMBRE DEL ARCHIVO EJECUTABLE
+       output \SimaClip.v52\SimaTool\SimaTool
+#>>>>FIN NOMBRE DEL ARCHIVO EJECUTABLE
+
+#>>>>MODULOS RESIDENTES EN MEMORIA
+       resident
+       fi \SimaClip.v52\SimaTool\f\objs\SimaTool
+#>>>>FIN MODULOS RESIDENTES EN MEMORIA
+
+#>>>>MODULOS OBJETOS DEL SISTEMA
+       dynamic into \SimaClip.v52\SimaTool\SimaTool
+
+#       @lnk\Tools100.lnk
+#       @lnk\Tools700.lnk
+
+       @lnk\ToolsFun.lnk
+       @lnk\ToolsSha.lnk
+
+#       @lnk\Conta100.lnk
+#       @lnk\Conta400.lnk
+#       @lnk\Conta500.lnk
+       @lnk\Conta600.lnk
+
+#       @lnk\Carte600.lnk
+
+#       @\SimaClip.v52\SimaCart\f\lnk\Carte100.lnk
+#       @\SimaClip.v52\SimaCart\f\lnk\Carte200.lnk
+#       @\SimaClip.v52\SimaCart\f\lnk\Carte300.lnk
+#       @\SimaClip.v52\SimaCart\f\lnk\Carte400.lnk
+#       @\SimaClip.v52\SimaCart\f\lnk\Carte500.lnk
+#       @\SimaClip.v52\SimaCart\f\lnk\Carte600.lnk
+#       @\SimaClip.v52\SimaCart\f\lnk\Carte700.lnk
+       @\SimaClip.v52\SimaCart\f\lnk\CarteFun.lnk
+       @\SimaClip.v52\SimaCart\f\lnk\CarteSha.lnk
+
+#>>>>FIN MODULOS OBJETOS DEL SISTEMA
+
+#>>>>MODULOS DE SIMASOFT
+       @\SimaClip.v52\clipper.fun\lnk\SimaSoft.lnk
+#>>>>FIN MODULOS OBJETO GENERALES
+
+#>>>>LIBRERIAS DE TERCEROS
+       @\SimaClip.v52\clipper.fun\lnk\Tools.lnk
+#>>>>FIN LIBRERIAS DE TERCEROS
+
+#>>>>LIBRERIA PRELINK BASE5n.PLL SEGUN LA ORDEN SET
+#      pll base52
+#>>>>FIN LIBRERIA PRELINK BASE5n.PLL SEGUN LA ORDEN SET
+
+#>>>>LINKEO INCREMENTAL. AHORRO DE TIEMPO
+#      incremental
+#>>>>FIN LINKEO INCREMENTAL. AHORRO DE TIEMPO

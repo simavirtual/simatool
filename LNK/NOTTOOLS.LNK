@@ -1,0 +1,14 @@
+#  ENCADENADOR PARA SIMA - CONTABILIDAD PROFESORES
+
+#*************************************************************************
+# MODULO..: FUNCIONES DESCARTADAS                                        *
+#*************************************************************************
+
+#------------------------------------------------------------------------*
+#                    DECLARACION DE MODULOS EXCLUIDOS                    *
+#------------------------------------------------------------------------*
+
+#>>>>MODULOS EXCLUIDOS
+       DEFINE nCarRec05,nCarRec11,CarAbo_05,RecAbo_11,Sca_20900
+       DEFINE MenuOtrInf,MenuOtrIso,CarInfSys
+#>>>>FIN MODULOS EXCLUIDOS

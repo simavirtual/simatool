@@ -1,0 +1,19 @@
+#  ENCADENADOR PARA SIMA - SISTEMA UTILITARIO
+
+#*************************************************************************
+# MODULO..: SIMACONT                                                     *
+#*************************************************************************
+
+#------------------------------------------------------------------------*
+#                       DECLARACION DE ARCHIVOS                          *
+#------------------------------------------------------------------------*
+
+#>>>>ARCHIVOS DEL MODULO
+       fi \SimaClip.v52\SimaTool\f\objs\Tools101
+       fi \SimaClip.v52\SimaTool\f\objs\Tools111
+       fi \SimaClip.v52\SimaTool\f\objs\Tools112
+       fi \SimaClip.v52\SimaTool\f\objs\Tools113
+       fi \SimaClip.v52\SimaTool\f\objs\Tools102
+       fi \SimaClip.v52\SimaTool\f\objs\Tools121
+       fi \SimaClip.v52\SimaTool\f\objs\Tools122
+#>>>>ARCHIVOS DEL MODULO

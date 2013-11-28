@@ -1,0 +1,87 @@
+#  ENCADENADOR PARA SIMA - SISTEMA UTILITARIO
+
+#*************************************************************************
+# TITULO..: ENCADENADOR DEL SISTEMA                                      *
+#*************************************************************************
+
+#AUTOR: Nelson Fern ndez G¢mez       FECHA DE CREACION: MAY 28/2002 MIE A
+#	Colombia, Bucaramanga	     INICIO: 07:00 AM   Pendiente
+
+#REQUERIMIENTOS:
+
+#1- Debe estar presente el linkiador del CLIPPER V52 Rtlink
+
+#OBJETIVOS:
+
+#1- Especificaciones para el encadenador "rtlink"
+
+#------------------------------------------------------------------------*
+#                    ESPECIFICACIONES PARA EL ENCADENADOR                *
+#------------------------------------------------------------------------*
+
+#>>>>OPCIONES DEL ENCADENADOR
+       BLI INC OF
+       BLI EXE CLI //F:60
+#>>>>FIN OPCIONES DEL ENCADENADOR
+
+#>>>>OPCIONES OPCIONALES
+#      BLI EXE DUA
+#      BLI EXE NODELETE
+#      BLI DEM DAT 2001/01/30
+#      BLI EXE COM 9
+#      VERBOSE
+#      MAP A,S
+#>>>>FIN OPCIONES OPCIONALES
+
+#>>>>NOMBRE DEL ARCHIVO EXECUTABLE
+       output \SimaClip.v52\SimaTool\SimaTool
+       section into \SimaClip.v52\SimaTool\SimaTool
+#>>>>FIN NOMBRE DEL ARCHIVO EXECUTABLE
+
+#>>>>MODULOS DEL SISTEMA
+       fi \SimaClip.v52\SimaTool\f\objs\SimaTool
+       BEGINAREA
+	 @lnk\Tools100.lnk
+	 @lnk\Tools700.lnk
+
+	 @lnk\ToolsFun.lnk
+	 @lnk\ToolsSha.lnk
+
+	 @lnk\Conta100.lnk
+	 @lnk\Conta400.lnk
+	 @lnk\Conta500.lnk
+	 @lnk\Conta600.lnk
+
+	 @lnk\Carte600.lnk
+
+	 @\SimaClip.v52\SimaCart\f\lnk\Carte100.lnk
+	 @\SimaClip.v52\SimaCart\f\lnk\Carte200.lnk
+	 @\SimaClip.v52\SimaCart\f\lnk\Carte300.lnk
+	 @\SimaClip.v52\SimaCart\f\lnk\Carte400.lnk
+	 @\SimaClip.v52\SimaCart\f\lnk\Carte500.lnk
+	 @\SimaClip.v52\SimaCart\f\lnk\Carte600.lnk
+	 @\SimaClip.v52\SimaCart\f\lnk\Carte700.lnk
+	 @\SimaClip.v52\SimaCart\f\lnk\CarteFun.lnk
+	 @\SimaClip.v52\SimaCart\f\lnk\CarteSha.lnk
+
+
+	 @\SimaClip.v52\clipper.fun\lnk\SimaSoft.lnk
+       ENDAREA
+#>>>>FIN MODULOS DEL SISTEMA
+
+#>>>>MODULOS DE SIMASOFT
+#       @\SimaClip.v52\clipper.fun\lnk\SimaSoft.lnk
+#>>>>FIN MODULOS OBJETO GENERALES
+
+#>>>>LIBRERIAS DE TERCEROS
+       @\SimaClip.v52\clipper.fun\lnk\Tools.lnk
+#>>>>FIN LIBRERIAS DE TERCEROS
+
+#>>>>LIBRERIAS DE TERCEROS
+#       fi \Aplica.Dos\lenguaje\Catools\obj\ctus
+#       search \Aplica.Dos\lenguaje\Catools\lib\ct
+#       search \aplica.dos\lenguaje\blinker\lib\blxclp52
+#       lib clipper
+#>>>>FIN LIBRERIAS DE TERCEROS
+
+
