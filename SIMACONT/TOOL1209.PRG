@@ -170,6 +170,7 @@ FUNCTION ValidarAlu(lShared,cNomSis)
        LOCAL lHayReg := .F.                 // .T. Existe el registro
        LOCAL cTxtTem := ''                  // Texto temporal
 
+       LOCAL cApelli := ''                  // Apellidos de los estudiantes
        LOCAL cNombre := ''                  // Nombre del Estudiante
        LOCAL grado   := ''                  // Grado del Estudiante
        LOCAL cCurso  := ''                  // Curso
@@ -211,7 +212,11 @@ FUNCTION ValidarAlu(lShared,cNomSis)
 	    xApelli := ''
 	    xNombre := ''
 	    xCodigo := ''
-	    
+
+	    cApelli := RTRIM(ALU->cApelliEst)
+	    cNombre := RTRIM(ALU->cApelliEst)+' '+;
+		       RTRIM(ALU->cNombreEst)
+
 
 	    IF lHayReg
 
@@ -220,9 +225,8 @@ FUNCTION ValidarAlu(lShared,cNomSis)
 		    cTxtTem += ' C:'+ALU->cCodigoEst+'-'+;
 				     IMP->cCodigoEst
 		 ENDIF
-		 cNombre := RTRIM(ALU->cApelliEst)+' '+;
-			    RTRIM(ALU->cNombreEst)
 *==============FIN CODIGO DEL ESTUDIANTE
+
 
 *==============CODIGO DEL GRUPO
 		 cCodigoTgr := ALLTRIM(IMP->cCodigoGru)
@@ -230,7 +234,7 @@ FUNCTION ValidarAlu(lShared,cNomSis)
 		 cCodigoTgr := SUBS(cCodigoTgr,nNroLen-3,4)
 
 		 IF ALU->cCodigoGru # cCodigoTgr
-		    cTxtTem += ' '+ALLTRIM(ALU->cCodigoGru)+' : '+cCodigoTgr
+		    cTxtTem += ' '+cApelli+' '+ALLTRIM(ALU->cCodigoGru)+' : '+cCodigoTgr
 		    cTipo := 'GRUPO'
 		 ENDIF
 *==============FIN CODIGO DEL GRUPO
@@ -275,7 +279,7 @@ FUNCTION ValidarAlu(lShared,cNomSis)
 
 	    ELSE
 		 cTipo := 'NO EXISTE'
-	       cTxtTem := 'NO EXISTE'
+	       cTxtTem := 'NO EXISTE '+cNombre
 	    ENDIF
 **********FIN ANALISIS DE DECISION
 
@@ -344,6 +348,7 @@ FUNCTION ValidarImp(lShared,cNomSis)
        LOCAL lHayErr := .F.                 // .T. Hay Error
        LOCAL cSavPan := ''                  // Salvar Pantalla
 
+       LOCAL cApelli := ''                  // Apellidos de los estudiantes
        LOCAL cNombre := ''                  // Nombre del Estudiante
        LOCAL lHayReg := .F.                 // .T. Existe el registro
        LOCAL cTxtTem := ''                  // Texto temporal
@@ -391,6 +396,11 @@ FUNCTION ValidarImp(lShared,cNomSis)
 	       nNroLen := LEN(ALLTRIM(IMP->cCodigoGru))
 	    cCodigoTgr := SUBS(cCodigoTgr,nNroLen-3,4)
 
+		 cApelli := RTRIM(IMP->cApelliEst)
+
+	       cNombre := RTRIM(IMP->cApelliEst)+' '+;
+			  RTRIM(IMP->cNombreEst)
+
 	    IF lHayReg
 
 *==============CODIGO DEL ESTUDIANTE
@@ -399,13 +409,11 @@ FUNCTION ValidarImp(lShared,cNomSis)
 				     ALLTRIM(ALU->cCodigoEst)
 		    cCodigoTes := ALU->cCodigoEst
 		 ENDIF
-		 cNombre := RTRIM(IMP->cApelliEst)+' '+;
-			    RTRIM(IMP->cNombreEst)
 *==============FIN CODIGO DEL ESTUDIANTE
 
 *==============CODIGO DEL GRUPO
 		 IF ALU->cCodigoGru # cCodigoTgr
-		    cTxtTem += ' '+ALLTRIM(ALU->cCodigoGru)+' : '+cCodigoTgr
+		    cTxtTem += ' '+cApelli+' '+ALLTRIM(ALU->cCodigoGru)+' : '+cCodigoTgr
 		    cTipo   := 'GRUPO'
 		 ENDIF
 *==============FIN CODIGO DEL GRUPO
@@ -456,8 +464,8 @@ FUNCTION ValidarImp(lShared,cNomSis)
 	    ELSE
 	       cTxtTem := IMP->cCodigoEst+' '+cCodigoTgr+' '
 
-	       cTxtTem += ALLTRIM(IMP->cApelliEst)+' '+;
-			  ALLTRIM(IMP->cNombreEst)
+	       cTxtTem += 'NO EXISTE '+cNombre
+
 	       cTipo   := 'NO EXISTE'
 	    ENDIF
 **********FIN ANALISIS DE DECISION

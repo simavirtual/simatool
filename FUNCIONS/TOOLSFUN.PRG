@@ -740,11 +740,13 @@ FUNCTION aMenuTools(nNroOpc,cDerech,aAyudas,cNomApl)
 	      CASE cNomApl == 'SIMACART'
 
 *------------------SUBMENU INFORMES
-		     AADD(aMenus,'1<DIAN              >')
+		     AADD(aMenus,'1<DIAN POR DOCUMENTO>')
 		     AADD(aMenus,'2<DIAN POR CONCEPTOS>')
+		     AADD(aMenus,'3<DIAN POR CODIGO   >')
 
 		     AADD(aAyuda,'Informes de la Dian')
 		     AADD(aAyuda,'Informes de la Dian Descriminado por Conceptos')
+		     AADD(aAyuda,'Informes de la Dian')
 *------------------FIN SUBMENU INFORMES
 
 	      CASE cNomApl == 'SIMACAFE'
@@ -1493,7 +1495,7 @@ FUNCTION MenusTools(lShared,nModCry,cNomSis,cCodEmp,cEmpPal,;
 					 cNitEmp,cNomEmp,nFilInf,nColInf,;
 					 nFilPal,cNomUsr,cAnoUsr,cPatSis,;
 					 cMaeAlu,cMaeAct,cJorTxt)
-			      *Dian
+			      *Dian por documento
 
 			  CASE nNroOpc == 2
 			       Tool4_402(lShared,nModCry,cNomSis,cEmpPal,;
@@ -1501,6 +1503,13 @@ FUNCTION MenusTools(lShared,nModCry,cNomSis,cCodEmp,cEmpPal,;
 					 nFilPal,cNomUsr,cAnoUsr,cPatSis,;
 					 cMaeAlu,cMaeAct,cJorTxt)
 			      *Dian por Conceptos
+
+			  CASE nNroOpc == 3
+			       Tool4_403(lShared,nModCry,cNomSis,cEmpPal,;
+					 cNitEmp,cNomEmp,nFilInf,nColInf,;
+					 nFilPal,cNomUsr,cAnoUsr,cPatSis,;
+					 cMaeAlu,cMaeAct,cJorTxt)
+			      *Dian por codigo
 
 			  ENDCASE
 *.......................FIN OPCION INFORMES

@@ -14,13 +14,13 @@ AUTOR: Nelson Fern ndez G¢mez       FECHA DE CREACION: MAR 25/2011 VIE A
 
 OBJETIVOS:
 
-1- Genera el informe de la Dian consolidando por cedula
+1- Genera el informe de la Dian consolidando por c¢digo
 
 *------------------------------------------------------------------------*
 *                              PROGRAMA                                  *
 *------------------------------------------------------------------------*/
 
-FUNCTION Tool4_401(lShared,nModCry,cNomSis,cEmpPal,cNitEmp,;
+FUNCTION Tool4_403(lShared,nModCry,cNomSis,cEmpPal,cNitEmp,;
 		   cNomEmp,nFilInf,nColInf,nFilPal,cNomUsr,;
 		   cAnoUsr,cPatSis,cMaeAlu,cMaeAct,cJorTxt)
 
@@ -81,7 +81,6 @@ FUNCTION Tool4_401(lShared,nModCry,cNomSis,cEmpPal,cNitEmp,;
        MEMVA xClrSys			    // Color del Sistema
 *>>>>FIN DECLARACION DE VARIABLES
 
-
 *>>>>LECTURA DE PATHS
        PathTool(lShared,nModCry,;
 		@PathMtr,@PathCon,@PathPro,@PathCar,@PathCaf)
@@ -129,7 +128,8 @@ FUNCTION Tool4_401(lShared,nModCry,cNomSis,cEmpPal,cNitEmp,;
 *>>>>RECORRIDO DE REGISTROS
        SELECT DN1
        DN1->(DBGOTOP())
-       cCodAnt := DN1->cCampo4
+       cCodAnt := DN1->cCampo2
+     *ÀC¢digo del Estudiante
 
        nCampo12 := 0
        nCampo13 := 0
@@ -141,25 +141,27 @@ FUNCTION Tool4_401(lShared,nModCry,cNomSis,cEmpPal,cNitEmp,;
 **********LINEA DE ESTADO
 	    LineaEstado('REGISTROS:'+DN1->(STR(RECNO(),4))+'/'+;
 				     DN1->(STR(RECCOUNT(),4))+;
-			'ºDoc No.:'+DN1->cCampo4,cNomSis)
+			'ºCODIGO.:'+DN1->cCampo2,cNomSis)
 **********FIN LINEA DE ESTADO
 
 **********SUMATORIA POR CONTRATANTE
-	    cCodAct := DN1->cCampo4
+	    cCodAct := DN1->cCampo2
 	    IF cCodAct == cCodAnt
 
-	       cCampo1  := DN1->cCampo1
-	       cCampo2  := DN1->cCampo2   // C¢digo del Estudiante
-	       cCampo3  := DN1->cCampo3   // Curso
-	       cCampo4  := DN1->cCampo4   // Documento *
-	       cCampo5  := DN1->cCampo5   // Apellido1
-	       cCampo6  := DN1->cCampo6   // Apellido2
-	       cCampo7  := DN1->cCampo7   // Nombre1
-	       cCampo8  := DN1->cCampo8   // Nombre2
-	       cCampo9  := DN1->cCampo9   // Direcci¢n *
-	       cCampo10 := DN1->cCampo10  // Ciudad *
-	       cCampo11 := DN1->cCampo11  // Departamento *
-	       cCampo12 := 'COLOMBIA'     // Pais
+	       IF !EMPTY(DN1->cCampo4)
+		  cCampo1  := DN1->cCampo1
+		  cCampo2  := DN1->cCampo2   // C¢digo del Estudiante
+		  cCampo3  := DN1->cCampo3   // Curso
+		  cCampo4  := DN1->cCampo4   // Documento *
+		  cCampo5  := DN1->cCampo5   // Apellido1
+		  cCampo6  := DN1->cCampo6   // Apellido2
+		  cCampo7  := DN1->cCampo7   // Nombre1
+		  cCampo8  := DN1->cCampo8   // Nombre2
+		  cCampo9  := DN1->cCampo9   // Direcci¢n *
+		  cCampo10 := DN1->cCampo10  // Ciudad *
+		  cCampo11 := DN1->cCampo11  // Departamento *
+		  cCampo12 := 'COLOMBIA'     // Pais
+	       ENDIF
 
 	       nCampo13 += VAL(DN1->cCampo13)
 	       nCampo14 += VAL(DN1->cCampo14)
@@ -173,8 +175,8 @@ FUNCTION Tool4_401(lShared,nModCry,cNomSis,cEmpPal,cNitEmp,;
 	*ÀAvance del registro
 
 **********ANALISIS DEL CODIGO ANTERIOR
-	    IF cCodAnt # DN1->cCampo4
-	       cCodAnt := DN1->cCampo4
+	    IF cCodAnt # DN1->cCampo2
+	       cCodAnt := DN1->cCampo2
 	       lGrabar := .T.
 	    ELSE
 	       lGrabar := .F.
@@ -236,4 +238,5 @@ FUNCTION Tool4_401(lShared,nModCry,cNomSis,cEmpPal,cNitEmp,;
 **********FIN GRABACION DEL REGISTRO
 
        ENDDO
+       RETURN NIL
 *>>>>FIN RECORRIDO DE REGISTROS

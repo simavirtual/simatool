@@ -84,6 +84,7 @@
 "$(OBJDIR)\Tool4202.obj" : "$(SISPRG)\SimaCart\Tool4202.prg"
 "$(OBJDIR)\Tool4401.obj" : "$(SISPRG)\SimaCart\Tool4401.prg"
 "$(OBJDIR)\Tool4402.obj" : "$(SISPRG)\SimaCart\Tool4402.prg"
+"$(OBJDIR)\Tool4403.obj" : "$(SISPRG)\SimaCart\Tool4403.prg"
 "$(OBJDIR)\Tool4601.obj" : "$(SISPRG)\SimaCart\Tool4601.prg"
 "$(OBJDIR)\Tool4602.obj" : "$(SISPRG)\SimaCart\Tool4602.prg"
 "$(OBJDIR)\Tool4603.obj" : "$(SISPRG)\SimaCart\Tool4603.prg"
