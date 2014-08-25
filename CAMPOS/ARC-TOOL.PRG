@@ -88,6 +88,9 @@ OBJETIVOS:
 
 *>>>>DECLARACION DE ARCHIVOS DE LA CONTABILIDAD
        LOCAL fConAno := 'CONT'                        // Ej: CONT1996.DAT
+
+       LOCAL fColPrc := 'COLEPROC'+ExtFile            // Ej: COLEPROC.DAT
+     *ÀArchivo de Colegios de Procedencia.
 *>>>>FIN DECLARACION DE ARCHIVOS DE LA CONTABILIDAD
 
 *>>>>DECLARACION DE ARCHIVOS DE LA CARTERA

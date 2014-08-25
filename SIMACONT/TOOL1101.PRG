@@ -6,16 +6,15 @@ SUBMENU...: CODIGOS RECUPERACIONES
 SISTEMA...: CONTABILIDAD ACADEMICA                  MODULO No. 101
 
 **************************************************************************
-* TITULO..: ACTUALIZACION CODIGOS RECUPERACIONES                         *
+* TITULO..: COLEGIOS DE PROCEDENCIA                                      *
 **************************************************************************
 
-AUTOR: Nelson Fern ndez G¢mez       FECHA DE CREACION: AGO 20/2002 MIE A
-       Colombia, Bucaramanga        INICIO: 02:30 PM   AGO 20/2002 MIE
+AUTOR: Nelson Fern ndez G¢mez       FECHA DE CREACION: JUN 03/2014 MAR A
+       Colombia, Bucaramanga        INICIO: 10:30 PM   JUN 03/2014 MAR
 
 OBJETIVOS:
 
-1- Actualiza la ubicaci¢n de los c¢digos de los indicadores para permitir
-   el control de las recuperaciones.
+1- Crea una archivo con los Colegios de Procedencia de los Estudiantes.
 
 *------------------------------------------------------------------------*
 *                              PROGRAMA                                  *
@@ -25,7 +24,7 @@ FUNCTION Tool1_101(lShared,nModCry,cNomSis,cEmpPal,cNitEmp,;
 		   cNomEmp,nFilInf,nColInf,nFilPal,cNomUsr,;
 		   cAnoUsr,cPatSis,cMaeAlu,cMaeAct,cJorTxt)
 
-*>>>>PARAMETROS DE LA FUNCION
+*>>>>DESCRIPCION DE PARAMETROS
 /*     lShared                              // .T. Sistema Compartido
        nModCry                              // Modo de Protecci¢n
        cNomSis                              // Nombre del Sistema
@@ -41,7 +40,7 @@ FUNCTION Tool1_101(lShared,nModCry,cNomSis,cEmpPal,cNitEmp,;
        cMaeAlu                              // Maestros habilitados
        cMaeAct                              // Maestro Activo
        cJorTxt                              // Jornada escogida */
-*>>>>FIN PARAMETROS DE LA FUNCION
+*>>>>FIN DESCRIPCION DE PARAMETROS
 
 *>>>>DECLARACION DE VARIABLES
        #INCLUDE "inkey.ch"
@@ -55,18 +54,18 @@ FUNCTION Tool1_101(lShared,nModCry,cNomSis,cEmpPal,cNitEmp,;
        LOCAL PathCar := ''                  // Path de la Cartera
        LOCAL PathCaf := ''                  // Path de la Cafeteria
 
-       LOCAL nRegIni := 0                   // Registro inicial del grupo
-       LOCAL nRegFin := 0                   // Registro Final del grupo
-       LOCAL cGruFin := ''                  // C¢digo del grupo final
+       LOCAL     i,j := 0                   // Contador
+       LOCAL cNroTem := ''                  // N£mero temporal
+
+       LOCAL aProced := {}		    // Procendencia del Estudiante
+       LOCAL cAnoCol := ''                  // A¤o de Procedencia
+       LOCAL cCodNiv := ''                  // C¢digo del Grado
+       LOCAL cNomNiv := ''                  // Nombre del Grado
+       LOCAL cNomCol := ''                  // Nombre del Colegio
+       LOCAL cCiuCol := ''                  // Ciudad del Colegio
 
        LOCAL Getlist := {}                  // Variable del sistema
 *>>>>FIN DECLARACION DE VARIABLES
-
-cError('OK')
-/*
-cError('NO HABILITADO')
-RETURN NIL
-*/
 
 *>>>>LECTURA DE PATHS
        PathTool(lShared,nModCry,;
@@ -80,9 +79,7 @@ RETURN NIL
 *>>>>FIN LECTURA DE PATHS
 
 *>>>>AREAS DE TRABAJO
-       cMaeAct := cNivelEst(nFilInf+1,nColInf,cMaeAlu)
-       AADD(aUseDbf,{.T.,PathCon+'\'+cMaeAct+'\'+;
-			 FileGru+cMaeAct+cAnoSis+ExtFile,'GRU',NIL,lShared,nModCry})
+       AADD(aUseDbf,{.T.,PathCon+'\'+fColPrc,'COL',NIL,lShared,nModCry})
 *>>>>FIN AREAS DE TRABAJO
 
 *>>>>SELECION DE LAS AREAS DE TRABAJO
@@ -96,8 +93,8 @@ RETURN NIL
 *>>>>VALIDACION DE CONTENIDOS DE ARCHIVOS
        lHayErr := .T.
        DO CASE
-       CASE GRU->(RECCOUNT()) == 0
-	    cError('NO EXISTEN GRUPOS GRABADOS')
+       CASE !COL->(RECCOUNT()) == 0
+	    cError('YA ESTAN GRABADOS LOS COLEGIOS DE PROCEDENCIA')
 
        OTHERWISE
 	    lHayErr :=.F.
@@ -109,207 +106,317 @@ RETURN NIL
        ENDIF
 *>>>>FIN VALIDACION DE CONTENIDOS DE ARCHIVOS
 
-*>>>>CAPTURA DE LOS GRUPOS POR INTERVALO
-       IF !lIntervGru(nFilInf+1,nColInf,@nRegIni,@nRegFin)
-	  CloseAll(aUseDbf)
-	  RETURN NIL
-       ENDIF
-*>>>>FIN CAPTURA DE LOS GRUPOS POR INTERVALO
+*>>>>RECORRIDO POR NIVELES
+       FOR i := 1 TO LEN(cMaeAlu)/3
 
-*>>>>ANALISIS DE DECISION
-       IF !lPregunta('DESEA CONTINUAR? No Si')
-	  CloseAll(aUseDbf)
-	  RETURN NIL
-       ENDIF
-*>>>>FIN ANALISIS DE DECISION
+***********SELECION DE LAS AREAS DE TRABAJO
+	     cMaeAct := SUBS(cMaeAlu,i*3-2,3)
 
-*>>>>ACTUALIZACION DE LOS ARCHIVOS DE NOTAS
-       SELECT GRU
-       GO nRegFin
-       cGruFin = GRU->cCodigoGru
+	     IF !lUseDbf(.T.,PathCon+'\'+cMaeAct+'\'+;
+			     FileAlu+cMaeAct+cAnoSis+ExtFile,;
+			     cMaeAct,NIL,lShared)
+		cError('ABRIENDO ARCHIVOS')
+		CloseAll(aUseDbf)
+		RETURN NIL
+	     ENDIF
+***********FIN SELECION DE LAS AREAS DE TRABAJO
 
-       GO nRegIni
-       DO WHILE GRU->(RECNO()) <= nRegFin
+***********VALIDACION DE CONTENIDOS DE ARCHIVOS
+	     lHayErr := .T.
+	     SELECT &cMaeAct
+	     DO CASE
+	     CASE RECCOUNT() == 0
+		  cError('NO EXISTE ESTUDIANTES GRABADOS')
 
-**********SELECION DE LAS AREAS DE TRABAJO
-	    IF !lUseDbf(.T.,PathCon+'\'+cMaeAct+'\NOTAS\'+;
-			   'NT'+GRU->cCodigoGru+cAnoSis+ExtFile,;
-			   'NOT',NIL,lShared)
+	     OTHERWISE
+		  lHayErr :=.F.
+	     ENDCASE
+	     IF lHayErr
+		CloseAll(aUseDbf)
+		RETURN NIL
+	     ENDIF
+***********FIN VALIDACION DE CONTENIDOS DE ARCHIVOS
 
-	       cError('ABRIENDO EL ARCHIVO DE NOTAS DEL GRUPO '+;
-		      GRU->cCodigoGru+' FAVOR CONSULTAR')
-	      CloseAll(aUseDbf)
-	      RETURN NIL
-	   ENDIF
-**********FIN SELECION DE LAS AREAS DE TRABAJO
+***********RECORRIDO POR ALUMNOS
+	     SELECT &cMaeAct
+	     DBGOTOP()
+	     DO WHILE .NOT. EOF()
 
-**********IMPRESION DE LA LINEA DE ESTADO
-	    LineaEstado('ACTUALIZANDO EL GRUPO: '+GRU->cCodigoGru+'/'+;
-			cGruFin+'ºFAVOR ESPERAR ...',cNomSis)
-**********FIN IMPRESION DE LA LINEA DE ESTADO
+		SELECT &cMaeAct
 
-**********ACTUALIZACION DE LOS CODIGOS
-	    ActCodApl(lShared,NOT->(DBSTRUCT()),GRU->cCodigoGru)
-**********FIN ACTUALIZACION DE LOS CODIGOS
+*===============LINEA DE ESTADO
+		  LineaEstado(cMaeAct+':'+STR(RECNO(),4)+'/'+;
+					  STR(RECCOUNT(),4)+;
+			      'ºCODIGO:'+&cMaeAct->cCodigoEst,cNomSis)
+*===============FIN LINEA DE ESTADO
 
-	  CloseDbf('NOT')
-	  GRU->(DBSKIP())
+*===============TRANSICION
+		  aProced := {}
+		  IF !EMPTY(ALLTRIM(&cMaeAct->cCole00Est))
 
-       ENDDO
-       CloseAll(aUseDbf)
-       RETURN NIL
-*>>>>FIN ACTUALIZACION DE LOS ARCHIVOS DE NOTAS
+		     cAnoCol := SUBS(&cMaeAct->cCole00Est,01,04)  // A¤o
+		     cNomNiv := SUBS(&cMaeAct->cCole00Est,05,10)  // Nivel
+		     cNomCol := SUBS(&cMaeAct->cCole00Est,15,40)  // Colegio
+		     cCiuCol := SUBS(&cMaeAct->cCole00Est,55,20)  // Ciudad
 
+		     AADD(aProced,{cAnoCol,cNomNiv,cNomCol,cCiuCol})
 
-/*************************************************************************
-* TITULO..: ACTUALIZACION DE CODIGOS APLICADOS                           *
-**************************************************************************
-
-AUTOR: Nelson Fern ndez G¢mez       FECHA DE CREACION: MAY 29/2002 MIE A
-       Colombia, Bucaramanga        INICIO: 03:30 AM   MAY 29/2002 MIE
-
-OBJETIVOS:
-
-1- Actualiza los c¢digos aplicados para permitir el control de las
-   recuperaciones.
-
-SINTAXIS:
-
-*------------------------------------------------------------------------*
-*                              PROGRAMA                                  *
-*------------------------------------------------------------------------*/
-
-FUNCTION ActCodApl(lShared,aStrDbf,cCodGru)
-
-*>>>>DESCRIPCION DE PARAMETROS
-/*     lShared                              // .T. Archivos Compartidos
-       aStrDbf                              // Estructura del Archivo
-       cCodGru                              // C¢digo del Grupo */
-*>>>>FIN DESCRIPCION DE PARAMETROS
-
-*>>>>DECLARACION DE VARIABLES
-       LOCAL       i := 0                   // Contador
-       LOCAL nNroFil := 0                   // N£mero de la Fila
-       LOCAL lHayErr := .F.                 // .T. Hay Error
-       LOCAL cLogros := ''                  // Indicadores Anteriores
-       LOCAL cIndAct := ''                  // Indicadores Actualizados
-       LOCAL cCamInd := ''                  // Campo de Indicadores
-       LOCAL lRegAct := ''                  // .T. Registro Actualizado
-*>>>>FIN DECLARACION DE VARIABLES
-
-*>>>>IMPRESION DE LOS ENCABEZADOS
-       nNroFil := nMarco(03,'GRUPO:'+cCodGru,22)
-       @ nNroFil,01 SAY 'No.'
-       @ nNroFil,04 SAY 'CODIGO'
-       @ nNroFil,11 SAY 'ESTADO'
-       nNroFil++
-*>>>>FIN IMPRESION DE LOS ENCABEZADOS
-
-*>>>>ACTUALIZACION DE LOS CODIGOS
-       SELECT NOT
-       GO TOP
-       DO WHILE .NOT. NOT->(EOF())
-
-**********VISUALIZACION DEL CODIGO DEL ESTUDIANTE
-	    @ nNroFil,01 SAY STR(NOT->(RECNO()),2,0)
-	    @ nNroFil,04 SAY NOT->cCodigoEst
-**********FIN VISUALIZACION DEL CODIGO DEL ESTUDIANTE
-
-**********ACTUALIZACION POR PERIODOS
-	    lRegAct := IF(NOT->nCamTemNot == 0,.F.,.T.)
-	    IF !lRegAct
-	       FOR i := 1 TO LEN(aStrDbf)
-
-*---------------VALIDACION DE LOS CAMPOS
-		  IF UPPER(SUBS(aStrDbf[i,1],1,2)) # 'CJ'
-		     LOOP
 		  ENDIF
-*---------------FIN VALIDACION DE LOS CAMPOS
+*===============FIN TRANSICION
 
-*---------------ACTUALIZACION DE LOS INDICADORES
-		  cCamInd := 'NOT->'+aStrDbf[i,1]
-		  cLogros := &cCamInd
-		  IF EMPTY(cLogros)
-		     LOOP
+*===============PRIMERO
+		  IF !EMPTY(ALLTRIM(&cMaeAct->cCole01Est))
+
+		     cAnoCol := SUBS(&cMaeAct->cCole01Est,01,04)  // A¤o
+		     cNomNiv := SUBS(&cMaeAct->cCole01Est,05,10)  // Nivel
+		     cNomCol := SUBS(&cMaeAct->cCole01Est,15,40)  // Colegio
+		     cCiuCol := SUBS(&cMaeAct->cCole01Est,55,20)  // Ciudad
+
+		     AADD(aProced,{cAnoCol,cNomNiv,cNomCol,cCiuCol})
+
 		  ENDIF
-		  cIndAct := cLogrosAct(cLogros)
-		  @ nNroFil,11 SAY cIndAct
-*---------------FIN ACTUALIZACION DE LOS INDICADORES
+*===============FIN PRIMERO
 
-*---------------GRABACION DE LA ACTUALIZACION
-		  SELECT NOT
-		  IF NOT->(lRegLock(lShared,.F.))
-		     REPLACE &cCamInd WITH cIndAct
-		     REPLACE NOT->nCamTemNot WITH 1
-		     NOT->(DBCOMMIT())
+*===============SEGUNDO
+		  IF !EMPTY(ALLTRIM(&cMaeAct->cCole02Est))
+
+		     cAnoCol := SUBS(&cMaeAct->cCole02Est,01,04)  // A¤o
+		     cNomNiv := SUBS(&cMaeAct->cCole02Est,05,10)  // Nivel
+		     cNomCol := SUBS(&cMaeAct->cCole02Est,15,40)  // Colegio
+		     cCiuCol := SUBS(&cMaeAct->cCole02Est,55,20)  // Ciudad
+
+		     AADD(aProced,{cAnoCol,cNomNiv,cNomCol,cCiuCol})
+
+		  ENDIF
+*===============FIN SEGUNDO
+
+*===============TERCERO
+		  IF !EMPTY(ALLTRIM(&cMaeAct->cCole03Est))
+
+		     cAnoCol := SUBS(&cMaeAct->cCole03Est,01,04)  // A¤o
+		     cNomNiv := SUBS(&cMaeAct->cCole03Est,05,10)  // Nivel
+		     cNomCol := SUBS(&cMaeAct->cCole03Est,15,40)  // Colegio
+		     cCiuCol := SUBS(&cMaeAct->cCole03Est,55,20)  // Ciudad
+
+		     AADD(aProced,{cAnoCol,cNomNiv,cNomCol,cCiuCol})
+
+		  ENDIF
+*===============FIN TERCERO
+
+*===============CUARTO
+		  IF !EMPTY(ALLTRIM(&cMaeAct->cCole04Est))
+
+		     cAnoCol := SUBS(&cMaeAct->cCole04Est,01,04)  // A¤o
+		     cNomNiv := SUBS(&cMaeAct->cCole04Est,05,10)  // Nivel
+		     cNomCol := SUBS(&cMaeAct->cCole04Est,15,40)  // Colegio
+		     cCiuCol := SUBS(&cMaeAct->cCole04Est,55,20)  // Ciudad
+
+		     AADD(aProced,{cAnoCol,cNomNiv,cNomCol,cCiuCol})
+
+		  ENDIF
+*===============FIN CUARTO
+
+*===============QUINTO
+		  IF !EMPTY(ALLTRIM(&cMaeAct->cCole05Est))
+
+		     cAnoCol := SUBS(&cMaeAct->cCole05Est,01,04)  // A¤o
+		     cNomNiv := SUBS(&cMaeAct->cCole05Est,05,10)  // Nivel
+		     cNomCol := SUBS(&cMaeAct->cCole05Est,15,40)  // Colegio
+		     cCiuCol := SUBS(&cMaeAct->cCole05Est,55,20)  // Ciudad
+
+		     AADD(aProced,{cAnoCol,cNomNiv,cNomCol,cCiuCol})
+
+		  ENDIF
+*===============FIN QUINTO
+
+*===============SEXTO
+		  IF !EMPTY(ALLTRIM(&cMaeAct->cCole06Est))
+
+		     cAnoCol := SUBS(&cMaeAct->cCole06Est,01,04)  // A¤o
+		     cNomNiv := SUBS(&cMaeAct->cCole06Est,05,10)  // Nivel
+		     cNomCol := SUBS(&cMaeAct->cCole06Est,15,40)  // Colegio
+		     cCiuCol := SUBS(&cMaeAct->cCole06Est,55,20)  // Ciudad
+
+		     AADD(aProced,{cAnoCol,cNomNiv,cNomCol,cCiuCol})
+
+		  ENDIF
+*===============FIN SEXTO
+
+*===============SEPTIMO
+		  IF !EMPTY(ALLTRIM(&cMaeAct->cCole07Est))
+
+		     cAnoCol := SUBS(&cMaeAct->cCole07Est,01,04)  // A¤o
+		     cNomNiv := SUBS(&cMaeAct->cCole07Est,05,10)  // Nivel
+		     cNomCol := SUBS(&cMaeAct->cCole07Est,15,40)  // Colegio
+		     cCiuCol := SUBS(&cMaeAct->cCole07Est,55,20)  // Ciudad
+
+		     AADD(aProced,{cAnoCol,cNomNiv,cNomCol,cCiuCol})
+
+		  ENDIF
+*===============FIN SEPTIMO
+
+*===============OCTAVO
+		  IF !EMPTY(ALLTRIM(&cMaeAct->cCole08Est))
+
+		     cAnoCol := SUBS(&cMaeAct->cCole08Est,01,04)  // A¤o
+		     cNomNiv := SUBS(&cMaeAct->cCole08Est,05,10)  // Nivel
+		     cNomCol := SUBS(&cMaeAct->cCole08Est,15,40)  // Colegio
+		     cCiuCol := SUBS(&cMaeAct->cCole08Est,55,20)  // Ciudad
+
+		     AADD(aProced,{cAnoCol,cNomNiv,cNomCol,cCiuCol})
+
+		  ENDIF
+*===============FIN OCTAVO
+
+*===============NOVENO
+		  IF !EMPTY(ALLTRIM(&cMaeAct->cCole09Est))
+
+		     cAnoCol := SUBS(&cMaeAct->cCole09Est,01,04)  // A¤o
+		     cNomNiv := SUBS(&cMaeAct->cCole09Est,05,10)  // Nivel
+		     cNomCol := SUBS(&cMaeAct->cCole09Est,15,40)  // Colegio
+		     cCiuCol := SUBS(&cMaeAct->cCole09Est,55,20)  // Ciudad
+
+		     AADD(aProced,{cAnoCol,cNomNiv,cNomCol,cCiuCol})
+
+		  ENDIF
+*===============FIN NOVENO
+
+*===============DECIMO
+		  IF !EMPTY(ALLTRIM(&cMaeAct->cCole10Est))
+
+		     cAnoCol := SUBS(&cMaeAct->cCole10Est,01,04)  // A¤o
+		     cNomNiv := SUBS(&cMaeAct->cCole10Est,05,10)  // Nivel
+		     cNomCol := SUBS(&cMaeAct->cCole10Est,15,40)  // Colegio
+		     cCiuCol := SUBS(&cMaeAct->cCole10Est,55,20)  // Ciudad
+
+		     AADD(aProced,{cAnoCol,cNomNiv,cNomCol,cCiuCol})
+
+		  ENDIF
+*===============FIN DECIMO
+
+*===============UNDECIMO
+		  IF !EMPTY(ALLTRIM(&cMaeAct->cCole11Est))
+
+		     cAnoCol := SUBS(&cMaeAct->cCole11Est,01,04)  // A¤o
+		     cNomNiv := SUBS(&cMaeAct->cCole11Est,05,10)  // Nivel
+		     cNomCol := SUBS(&cMaeAct->cCole11Est,15,40)  // Colegio
+		     cCiuCol := SUBS(&cMaeAct->cCole11Est,55,20)  // Ciudad
+
+		     AADD(aProced,{cAnoCol,cNomNiv,cNomCol,cCiuCol})
+		  ENDIF
+*===============FIN UNDECIMO
+
+*===============MATERNALES
+		  IF !EMPTY(ALLTRIM(&cMaeAct->cCole12Est))
+
+		     cAnoCol := SUBS(&cMaeAct->cCole12Est,01,04)  // A¤o
+		     cNomNiv := SUBS(&cMaeAct->cCole12Est,05,10)  // Nivel
+		     cNomCol := SUBS(&cMaeAct->cCole12Est,15,40)  // Colegio
+		     cCiuCol := SUBS(&cMaeAct->cCole12Est,55,20)  // Ciudad
+
+		     AADD(aProced,{cAnoCol,cNomNiv,cNomCol,cCiuCol})
+		  ENDIF
+*===============FIN MATERNALES
+
+*===============CAMINADORES
+		  IF !EMPTY(ALLTRIM(&cMaeAct->cCole13Est))
+
+		     cAnoCol := SUBS(&cMaeAct->cCole13Est,01,04)  // A¤o
+		     cNomNiv := SUBS(&cMaeAct->cCole13Est,05,10)  // Nivel
+		     cNomCol := SUBS(&cMaeAct->cCole13Est,15,40)  // Colegio
+		     cCiuCol := SUBS(&cMaeAct->cCole13Est,55,20)  // Ciudad
+
+		     AADD(aProced,{cAnoCol,cNomNiv,cNomCol,cCiuCol})
+		  ENDIF
+*===============FIN CAMINADORES
+
+*===============PARVULOS
+		  IF !EMPTY(ALLTRIM(&cMaeAct->cCole14Est))
+
+		     cAnoCol := SUBS(&cMaeAct->cCole14Est,01,04)  // A¤o
+		     cNomNiv := SUBS(&cMaeAct->cCole14Est,05,10)  // Nivel
+		     cNomCol := SUBS(&cMaeAct->cCole14Est,15,40)  // Colegio
+		     cCiuCol := SUBS(&cMaeAct->cCole14Est,55,20)  // Ciudad
+
+		     AADD(aProced,{cAnoCol,cNomNiv,cNomCol,cCiuCol})
+		  ENDIF
+*===============FIN PARVULOS
+
+*===============PREJARDIN
+		  IF !EMPTY(ALLTRIM(&cMaeAct->cCole15Est))
+
+		     cAnoCol := SUBS(&cMaeAct->cCole15Est,01,04)  // A¤o
+		     cNomNiv := SUBS(&cMaeAct->cCole15Est,05,10)  // Nivel
+		     cNomCol := SUBS(&cMaeAct->cCole15Est,15,40)  // Colegio
+		     cCiuCol := SUBS(&cMaeAct->cCole15Est,55,20)  // Ciudad
+
+		     AADD(aProced,{cAnoCol,cNomNiv,cNomCol,cCiuCol})
+		  ENDIF
+*===============FIN PREJARDIN
+
+*===============JARDIN
+		  IF !EMPTY(ALLTRIM(&cMaeAct->cCole16Est))
+
+		     cAnoCol := SUBS(&cMaeAct->cCole16Est,01,04)  // A¤o
+		     cNomNiv := SUBS(&cMaeAct->cCole16Est,05,10)  // Nivel
+		     cNomCol := SUBS(&cMaeAct->cCole16Est,15,40)  // Colegio
+		     cCiuCol := SUBS(&cMaeAct->cCole16Est,55,20)  // Ciudad
+
+		     AADD(aProced,{cAnoCol,cNomNiv,cNomCol,cCiuCol})
+		  ENDIF
+*===============FIN JARDIN
+
+*===============GRABACION DEL REGISTRO
+		  SELECT COL
+		  IF COL->(lRegLock(lShared,.T.))
+
+		     REPL COL->nIdeCodCol WITH COL->(RECNO())
+		     REPL COL->cCodigoEst WITH &cMaeAct->cCodigoEst
+		     REPL COL->cNombreEst WITH &cMaeAct->cNombreEst
+		     REPL COL->cApelliEst WITH &cMaeAct->cApelliEst
+		     REPL COL->cCodigoGru WITH &cMaeAct->cCodigoGru
+
+		     FOR j := 1 TO LEN(aProced)
+
+			 cNroTem := STR(j,2)
+			 lCorrecion(@cNroTem)
+
+			 cAnoCol := 'COL->cYear'+cNroTem+'Col'
+			 cNomNiv := 'COL->cGrad'+cNroTem+'Col'
+			 cNomCol := 'COL->cCole'+cNroTem+'Col'
+			 cCiuCol := 'COL->cCiud'+cNroTem+'Col'
+
+			 REPL &cAnoCol WITH aProced[j,1]
+			 REPL &cNomNiv WITH aProced[j,2]
+			 REPL &cNomCol WITH aProced[j,3]
+			 REPL &cCiuCol WITH aProced[j,4]
+
+		     ENDFOR
+
+		     REPL COL->cNomUsrCol WITH cNomUsr
+		     REPL COL->dFecUsrCol WITH DATE()
+		     REPL COL->cHorUsrCol WITH TIME()
+
+
+		     COL->(DBCOMMIT())
+
 		  ELSE
 		     cError('NO SE GRABA LOS LOGROS DEL ESTUDIANTE')
 		  ENDIF
 		  IF lShared
-		     NOT->(DBUNLOCK())
+		     COL->(DBUNLOCK())
 		  ENDIF
-*---------------FIN GRABACION DE LA ACTUALIZACION
-
-	       ENDFOR
-	    ENDIF
-**********FIN ACTUALIZACION POR PERIODOS
-
-**********INCREMENTO DE LAS FILAS
-	    @ nNroFil,11 SAY IF(lRegAct ,'YA ACTUALIZADO','')
-	    nNroFil++
-	    IF nNroFil > 21
-	       nNroFil := nMarco(03,'GRUPO:'+cCodGru,22)
-	       @ nNroFil,01 SAY 'No.'
-	       @ nNroFil,04 SAY 'CODIGO'
-	       @ nNroFil,11 SAY 'ESTADO'
-	    ENDIF
-**********FIN INCREMENTO DE LAS FILAS
-
-	  NOT->(DBSKIP())
-
-       ENDDO
-       CloseDbf('NOT')
-       RETURN NIL
-*>>>>FIN ACTUALIZACION DE LOS CODIGOS
 
 
-/*************************************************************************
-* TITULO..: ACTUALIZACION DE LOS LOGROS                                  *
-**************************************************************************
+*===============FIN GRABACION DEL REGISTRO
 
-AUTOR: Nelson Fern ndez G¢mez       FECHA DE CREACION: MAY 28/2002 MAR A
-       Colombia, Bucaramanga        INICIO: 01:00 AM   MAY 28/2002 MAR
+		SELECT &cMaeAct
+		DBSKIP()
 
-OBJETIVOS:
-
-1- Actuliza los c¢digos de los indicadores agregando el espacio para
-   el control de las Recuperaciones.
-
-SINTAXIS:
-
-*------------------------------------------------------------------------*
-*                              PROGRAMA                                  *
-*------------------------------------------------------------------------*/
-
-FUNCTION cLogrosAct(cLogros)
-
-*>>>>DECLARACION DE VARIABLES
-       LOCAL       i := 0                   // Contador
-       LOCAL cIndAct := ''                  // Indicadores Actualizados
-       LOCAL nNroInd := 0                   // N£mero de Indicadores
-       LOCAL cCodLog := ''                  // C¢digo del Logro
-*>>>>FIN DECLARACION DE VARIABLES
-
-*>>>>ACTUALIZACION DE LOS INDICADORES
-       nNroInd := ROUND(LEN(ALLTRIM(cLogros))/5,0)
-       FOR i := 1 TO nNroInd
-
-	   cCodLog := SUBS(cLogros,i*5-4,5)
-	   IF !LEN(cCodLog) == 5
-	      cError('LA LONGITUD DEL CODIGO NO ES IGUAL A 5')
-	   ENDIF
-	   cIndAct += cCodLog+SPACE(01)
+	     ENDDO
+***********FIN RECORRIDO POR ALUMNOS
 
        ENDFOR
-       RETURN cIndAct
-*>>>>FIN ACTUALIZACION DE LOS INDICADORES
+       CloseAll()
+       RETURN NIL
+*>>>>FIN RECORRIDO POR NIVELES

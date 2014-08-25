@@ -543,8 +543,8 @@ FUNCTION aMenuTools(nNroOpc,cDerech,aAyudas,cNomApl)
 	      CASE cNomApl == 'SIMACONT'
 
 *------------------SUBMENU PROCESOS
-		     AADD(aMenus,'1<PENDIENTE>')
-		     AADD(aAyuda,'Pendiente')
+		     AADD(aMenus,'1<COL PROCEDENCIA>')
+		     AADD(aAyuda,'Colegios de Procedencia')
 *------------------FIN MENU PROCESOS
 
 	      CASE cNomApl == 'SIMAPROF'
@@ -1196,6 +1196,13 @@ FUNCTION MenusTools(lShared,nModCry,cNomSis,cCodEmp,cEmpPal,;
 *.......................OPCION PROCESOS
 			  DO CASE
 			  CASE nNroOpc == 1
+
+			       Tool1_101(lShared,nModCry,cNomSis,cEmpPal,;
+					 cNitEmp,cNomEmp,nFilInf,nColInf,;
+					 nFilPal,cNomUsr,cAnoUsr,cPatSis,;
+					 cMaeAlu,cMaeAct,cJorTxt)
+			     *ÀColegios de Procedencia
+
 			  CASE nNroOpc == 2
 
 			  ENDCASE

@@ -51,6 +51,7 @@
 "$(OBJDIR)\Tools708.obj" : "$(SISPRG)\Tools708.prg"
 .prg.obj:
 	 clipper SIMACONT\$* $(OPTIONS)/o$(OBJDIR)\$*
+"$(OBJDIR)\Tool1101.obj" : "$(SISPRG)\SimaCont\Tool1101.prg"
 "$(OBJDIR)\Tool1201.obj" : "$(SISPRG)\SimaCont\Tool1201.prg"
 "$(OBJDIR)\Tool1202.obj" : "$(SISPRG)\SimaCont\Tool1202.prg"
 "$(OBJDIR)\Tool1203.obj" : "$(SISPRG)\SimaCont\Tool1203.prg"
