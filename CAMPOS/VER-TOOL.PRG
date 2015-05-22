@@ -20,5 +20,5 @@ OBJETIVOS:
 *------------------------------------------------------------------------*/
 
 *>>>>ARCHIVOS DEL SISTEMA
-      LOCAL cVerSis := ' XML214-03'          // Versi¢n Actual
+      LOCAL cVerSis := ' XML215-01'          // Versi¢n Actual
 *>>>>FIN ARCHIVOS DEL SISTEMA

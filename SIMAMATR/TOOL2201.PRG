@@ -1,10 +1,10 @@
 /* SIMATOOL - MATRICULA ACADEMICA
 
 MODULO      : ACTUALIZAR
-SUBMODULO...: FIJAR GRUPOS A
+SUBMODULO...: FIJAR GRUPOS
 
 **************************************************************************
-* TITULO..: SUBDIVISION DE OBSERVACIONES                                 *
+* TITULO..: FIJA GRUPOS A OTROS SERVICIOS                                *
 **************************************************************************
 
 AUTOR: Nelson Fern ndez G¢mez       FECHA DE CREACION: NOV 28/2006 MAR A
@@ -12,7 +12,7 @@ AUTOR: Nelson Fern ndez G¢mez       FECHA DE CREACION: NOV 28/2006 MAR A
 
 OBJETIVOS:
 
-1- Permite el Mantenimiento de la subdivision de las observaciones.
+1- Fijar Grupos a Otros Servicios como restaurante y transporte
 
 *------------------------------------------------------------------------*
 *                              PROGRAMA                                  *
@@ -66,7 +66,8 @@ FUNCTION Tool2_201(lShared,nModCry,cNomSis,cCodEmp,cEmpPal,;
        lShared := .T.
        cSavPan := SAVESCREEN(0,0,24,79)
        PathMtr := SPACE(60)
-       @ nFilInf+1,nColInf SAY 'PATH DEL SISTEMA:' GET PathMtr PICT '@!S46'
+       @ nFilInf+1,1 SAY 'PATH DEL SERVICIO:';
+		     GET PathMtr PICT '@!S46'
        READ
        RESTSCREEN(0,0,24,79,cSavPan)
 
@@ -84,7 +85,7 @@ FUNCTION Tool2_201(lShared,nModCry,cNomSis,cCodEmp,cEmpPal,;
 	  RETURN NIL
        ENDIF
 
-       cError(PathMtr,'PATH DEL SISTEMA')
+       cError(PathMtr,'PATH DEL SERVICIO')
        IF !lPregunta('DESEA CONTINUAR? No Si')
 	  RETURN NIL
        ENDIF
@@ -131,7 +132,7 @@ FUNCTION Tool2_201(lShared,nModCry,cNomSis,cCodEmp,cEmpPal,;
        PathCon := ALLTRIM(ANO->cIntCuaAno)
 
        cError(PathCon,'PATH SIMACONT REAL')
-       cError(PathMae,'PATH SIMACONT')
+       cError(PathMae,'PATH SIMACONT DEL SERVICIO')
 
        CloseAll(aUseDbf)
        IF !lPregunta('DESEA CONTINUAR? No Si')
